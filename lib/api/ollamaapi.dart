@@ -9,7 +9,7 @@ class ApiService {
     final url = Uri.parse(_baseUrl);
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode({
-      'model': 'mistral',
+      'model': 'mistral:7b',
       'stream': false,
       'prompt': prompt,
       'history': _conversationHistory, // Include the conversation history

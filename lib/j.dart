@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:offline_ai/home_screen.dart';
+import 'package:offline_ai/screens/homescreen/home_screen.dart';
+// import 'package:offline_ai/screens/home_screen.dart';
 
 class MyApp extends StatefulWidget {
   @override
