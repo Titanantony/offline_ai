@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:offline_ai/const/color.dart';
 import 'package:offline_ai/screens/homescreen/home_screen.dart';
-import 'package:offline_ai/screens/models/models.dart';
-// import 'package:offline_ai/screens/home_screen.dart';
+import 'package:offline_ai/screens/models/model_fetcher.dart';
 import 'package:offline_ai/screens/settings.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
