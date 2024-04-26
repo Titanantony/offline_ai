@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:offline_ai/const/color.dart';
 import 'package:offline_ai/screens/homescreen/home_screen.dart';
+import 'package:offline_ai/screens/models/models.dart';
 // import 'package:offline_ai/screens/home_screen.dart';
 import 'package:offline_ai/screens/settings.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -28,8 +29,8 @@ class _MainScreenWithTopNavBarState extends State<MainScreenWithTopNavBar> {
 
   List<Widget> _buildScreens() {
     return [
-      HomeScreen(),
-      Container(color: Colors.blue),
+      const HomeScreen(),
+      TagFetcher(), // This line cannot be fixed without additional context
       SettingsScreen(toggleThemeMode: widget.toggleThemeMode),
     ];
   }

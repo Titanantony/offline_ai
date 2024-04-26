@@ -12,6 +12,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _textController = TextEditingController();
   final List<Map<String, String>> _conversationHistory = [];
+  bool _isLoading = false; // New state variable to track loading
 
   @override
   void dispose() {
@@ -20,14 +21,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _generateResponse() async {
+    setState(() {
+      _isLoading = true; // Set loading state to true
+    });
+
     final prompt = _textController.text;
     final response = await ApiService().generateResponse(prompt);
+
     setState(() {
       _conversationHistory.add({
         'prompt': prompt,
         'response': response,
       });
       _textController.clear();
+      _isLoading = false; // Set loading state to false
     });
   }
 
@@ -126,41 +133,53 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildTextField() {
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(
-          maxHeight: 200,
-          maxWidth: 600,
-        ),
-        child: TextField(
-          controller: _textController,
-          maxLines: null,
-          decoration: InputDecoration(
-            hintText: 'Enter your prompt here...',
-            filled: true,
-            fillColor: const Color.fromARGB(255, 228, 219, 219),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
-              borderSide: BorderSide.none,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (_isLoading) // Show loading indicator if _isLoading is true
+          const Padding(
+            padding: EdgeInsets.only(bottom: 8.0),
+            child: CircularProgressIndicator(),
+          ),
+        Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxHeight: 200,
+              maxWidth: 600,
             ),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-            suffixIcon: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: _generateResponse,
+            child: TextField(
+              controller: _textController,
+              maxLines: null,
+              decoration: InputDecoration(
+                hintText: 'Enter your prompt here...',
+                filled: true,
+                fillColor: const Color.fromARGB(255, 228, 219, 219),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                  borderSide: BorderSide.none,
                 ),
-                IconButton(
-                  icon: const Icon(Icons.clear),
-                  onPressed: _delayedClearTextField,
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 12.0, horizontal: 16.0),
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.search),
+                      onPressed: _isLoading
+                          ? null
+                          : _generateResponse, // Disable button when loading
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: _delayedClearTextField,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 }
