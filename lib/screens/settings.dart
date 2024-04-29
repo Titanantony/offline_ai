@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:offline_ai/const/color.dart';
+// import 'package:offline_ai/const/color.dart';
 
 class SettingsScreen extends StatefulWidget {
   final Function toggleThemeMode;
@@ -18,18 +18,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: secondarycolor,
-        title: const Row(
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? const Color.fromARGB(255, 7, 6, 6)
+            : const Color.fromARGB(255, 231, 227, 227),
+        title: Row(
           children: [
             Icon(
               CupertinoIcons.settings,
               size: 40,
-              color: nextcolor,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black,
             ),
-            SizedBox(width: 10),
-            Text(
+            const SizedBox(width: 10),
+            const Text(
               'Settings',
-              style: TextStyle(color: Colors.white),
             ),
           ],
         ),

@@ -33,11 +33,11 @@ class _SportsListState extends State<MyAppWithBottomNavBar> {
           title: Row(
             children: [
               const Icon(
-                IconData(0xe5f2, fontFamily: 'MaterialIcons'),
+                CupertinoIcons.burn,
                 size: 40,
                 color: nextcolor,
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Row(
                 children: [
                   GestureDetector(
@@ -50,15 +50,15 @@ class _SportsListState extends State<MyAppWithBottomNavBar> {
                       children: [
                         SizedBox(width: 10),
                         Text(
-                          'SOCCER',
+                          'Offline AI',
                           style: TextStyle(color: Colors.white),
                         ),
-                        SizedBox(width: 10),
-                        Icon(
-                          CupertinoIcons.arrowtriangle_down_fill,
-                          color: Colors.white,
-                          size: 15,
-                        ),
+                        // SizedBox(width: 10),
+                        // Icon(
+                        //   CupertinoIcons.arrowtriangle_down_fill,
+                        //   color: Colors.white,
+                        //   size: 15,
+                        // ),
                       ],
                     ),
                   ),
@@ -69,8 +69,8 @@ class _SportsListState extends State<MyAppWithBottomNavBar> {
           actions: <Widget>[
             IconButton(
               icon: const Icon(
-                CupertinoIcons.search,
-                size: 30,
+                CupertinoIcons.person_alt_circle,
+                size: 40,
                 color: nextcolor,
               ),
               onPressed: () {},

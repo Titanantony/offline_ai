@@ -1,4 +1,5 @@
-// import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,8 +7,8 @@ import 'package:offline_ai/const/color.dart';
 import 'package:offline_ai/const/custom_button.dart';
 import 'package:offline_ai/const/custom_text.dart';
 import 'package:offline_ai/const/custom_text_field.dart';
-import 'package:offline_ai/user_auth/firebase_auth_services.dart';
 import 'package:offline_ai/utils/pref.dart';
+import 'package:http/http.dart' as http;
 
 Preferences mypref = Preferences();
 
@@ -19,7 +20,6 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-  final FirebaseAuthService _auth = FirebaseAuthService();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -47,6 +47,7 @@ class _SignupState extends State<Signup> {
                   text: "Sign up",
                   fontsize: 34,
                   fontWeight: FontWeight.bold,
+                  textcolor: Colors.deepPurple,
                 ),
               ),
             ],
@@ -56,8 +57,9 @@ class _SignupState extends State<Signup> {
           ),
           CustomTextField(
             controller: _nameController,
-            prefixIcon: const Icon(CupertinoIcons.person),
+            prefixIcon: const Icon(CupertinoIcons.person_crop_circle),
             hintText: "name",
+            hintcolor: Colors.black,
           ),
           CustomTextField(
             controller: _emailController,
@@ -67,13 +69,12 @@ class _SignupState extends State<Signup> {
           CustomTextField(
             controller: _passwordController,
             prefixIcon: const Icon(CupertinoIcons.lock),
-            suffixIcon: const Icon(Icons.visibility),
+            isPassword: true,
             hintText: "password",
-            obscureText: true,
           ),
           CustomButton(
             label: "sign up",
-            action: _signUp,
+            action: serverSignup,
             size: const Size(250, 40),
             backgroundcolor: othercolor,
             forecolor: primarycolor,
@@ -92,23 +93,33 @@ class _SignupState extends State<Signup> {
     );
   }
 
-  void _signUp() async {
-    try {
-      final String email = _emailController.text;
-      final String password = _passwordController.text;
-
-      // Sign up with email and password
-      await _auth.createUserWithEmailAndPassword(email, password);
-
-      // Navigate to home page
-      Get.toNamed("/home");
-    } catch (e) {
-      print("Error signing up: $e");
-    }
+  void _signUp() {
+    // Add your sign-up logic here
   }
 
   void _signIn() {
     // Navigate to sign in page
     Get.offAndToNamed("/login");
+  }
+
+  Future<void> serverSignup() async {
+    http.Response response;
+    var body = {
+      'username': _nameController.text.trim(),
+      'email': _emailController.text.trim(),
+      'password': _passwordController.text.trim(),
+    };
+    response = await http
+        .post(Uri.parse("https://nattiee.com/MrcyAI/signup.php"), body: body);
+    if (response.statusCode == 200) {
+      var serverResponse = json.decode(response.body);
+      int signedUp = serverResponse['success'];
+      if (signedUp == 1) {
+        Get.offAndToNamed("/login");
+        print("account created");
+      } else {
+        print("Account not created");
+      }
+    }
   }
 }

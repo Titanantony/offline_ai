@@ -7,6 +7,8 @@ class CustomButton extends StatelessWidget {
   final Size size;
   final Color forecolor;
   final Color backgroundcolor;
+  // final double? fontsize;
+
   const CustomButton(
       {super.key,
       required this.label,
@@ -14,6 +16,7 @@ class CustomButton extends StatelessWidget {
       this.backgroundcolor = Colors.white,
       this.forecolor = Colors.white,
       this.size = const Size(100, 40)});
+  // this.fontsize =18
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,7 @@ class CustomButton extends StatelessWidget {
           minimumSize: size),
       child: CustomText(
         text: label,
-        textcolor: forecolor,
+        textcolor: Colors.black,
       ),
     );
   }

@@ -1,15 +1,21 @@
+export 'api_service.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
   static const String _baseUrl = 'http://localhost:11434/api/generate';
   static final List<String> _conversationHistory = [];
+  static String _selectedModel = 'llama2';
+  static void updateSelectedModel(String modelName) {
+    _selectedModel = modelName;
+  }
 
   Future<String> generateResponse(String prompt) async {
     final url = Uri.parse(_baseUrl);
     final headers = {'Content-Type': 'application/json'};
+
     final body = json.encode({
-      'model': 'mistral:7b',
+      'model': _selectedModel,
       'stream': false,
       'prompt': prompt,
       'history': _conversationHistory, // Include the conversation history

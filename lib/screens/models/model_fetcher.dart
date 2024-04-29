@@ -9,7 +9,7 @@ class TagFetcher extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('List of Models'),
+        title: const Center(child: Text('List of Models')),
       ),
       body: FutureBuilder<List<String>>(
         future: fetchTags(),
@@ -19,7 +19,6 @@ class TagFetcher extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
-            // Call the tagsBuilder function directly
             return tagsBuilder(snapshot);
           }
         },
